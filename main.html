@@ -12,20 +12,15 @@ Enter Your Name: <input type="text"  id="myText"><br>&emsp;&emsp;&emsp;&emsp;&em
 
 
 <ul id="messages"></ul>
-<script src="/socket.io/socket.io.js"></script>
 <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
 
 
-
     function myFunction() {
-        //var Name = document.getElementById('name').value;
-       // var x = document.getElementById("myText").value;
         var url = "http://localhost:3000"
         window.open(url);
     }
     function myFunction2() {
-        //var Name = document.getElementById('name').value;
 
        var PName = document.getElementById("myText").value;
         sessionStorage.setItem('Names', PName);

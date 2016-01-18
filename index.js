@@ -20,32 +20,36 @@ app.get('/home', function(req, res){
 });
 
 
+app.get('/getUserHistory',function(req,res){
+
+
+var responseString="";
+
+db.all("SELECT rowid AS id, info FROM user_info", function(err, row) {
+    res.send({'messages':row});
+
+
+
+});
+
+
+
+});
+
+
 io.on('connection', function(socket){
     console.log('a user connected');
 
 
-    socket.on('chat message', function(msg){
+    socket.on('chat message', function(msg) {
 
 
-
-
-      console.log(msg);
 
         stmt = db.prepare("INSERT INTO user_info VALUES (?)");
 
         stmt.run(msg);
         stmt.finalize();
         io.emit('chat message', msg);
-
-
-
-    });
-
-    db.each("SELECT rowid AS id, info FROM user_info", function(err, row) {
-        _mg=row.info;
-
-        console.log(_mg);
-        io.emit('chat message', _mg);
 
 
     });

@@ -11,13 +11,15 @@
         form button { id:"Exit"; width: 10%; background: rgb(200, 100, 0); border: none; padding: 10px }
         #messages { list-style-type: none; margin: 0; padding-bottom: 70px }
         #messages li { padding: 5px 10px; }
-        #messages li:nth-child(odd) { background:rgba(102, 195, 154, 0.45) }
-        #messages li:nth-child(even) { background:rgba(0, 0, 0, 0.2) }
+        #messages li:nth-child(odd) { background:rgba(0, 0, 0, 0.10) }
+        #messages li:nth-child(even) { background:rgba(0, 0, 0, 0.20) }
     </style>
 </head>
 
-
+<body>
 <p id="demo1"></p>
+
+<div id="user_chat_history"></div>
 <ul id="messages"></ul>
 <form action="">
     <input id="m" autocomplete="off" /><button>Send</button><button id="Exit" onclick="windowclose()">Exit Chat</button>
@@ -28,7 +30,20 @@
 <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
 
+    $(document).ready(function(){
+        $.get('/getUserHistory',function(response){
 
+
+            response.messages.forEach(function(item){
+
+                $('#messages').append($('<li>').text(item.info));
+
+            });
+
+
+
+        });
+    });
     var i= 0;
     var PersonName = sessionStorage.getItem('Names');
     //window.location.search += PersonName;
@@ -40,6 +55,8 @@ var print = printName.substring(i+1);
 
     var socket = io();
     $('form').submit(function(){
+
+
         var currentdate = new Date();
 
         var datetime = "Date: " + (currentdate.getMonth()+1) + "/"
