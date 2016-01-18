@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+    <title>ChatRoom</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font: 14px Helvetica, TimesNewRoman; }
+        form { background: #aaa; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+        form input { border: 0; padding: 10px; width: 79%; }
+        form button { width: 10%; background: rgb(224, 130, 255); border: none; padding: 10px;margin-left: 5px }
+        form button { id:"Exit"; width: 10%; background: rgb(200, 100, 0); border: none; padding: 10px }
+        #messages { list-style-type: none; margin: 0; padding-bottom: 70px }
+        #messages li { padding: 5px 10px; }
+        #messages li:nth-child(odd) { background:rgba(102, 195, 154, 0.45) }
+        #messages li:nth-child(even) { background:rgba(0, 0, 0, 0.2) }
+    </style>
+</head>
+
+
+<p id="demo1"></p>
+<ul id="messages"></ul>
+<form action="">
+    <input id="m" autocomplete="off" /><button>Send</button><button id="Exit" onclick="windowclose()">Exit Chat</button>
+</form>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+
+
+    var i= 0;
+    var PersonName = sessionStorage.getItem('Names');
+    //window.location.search += PersonName;
+  window.location.hash += PersonName;
+
+    var printName = window.location.href;
+     i= printName.indexOf("#");
+var print = printName.substring(i+1);
+
+    var socket = io();
+    $('form').submit(function(){
+        var currentdate = new Date();
+
+        var datetime = "Date: " + (currentdate.getMonth()+1) + "/"
+                + currentdate.getDate()  + "/"
+                + currentdate.getFullYear() + " Time: "
+                + currentdate.getHours() + ":"
+                + currentdate.getMinutes() + ":"
+                + currentdate.getSeconds();
+
+
+
+        socket.emit('chat message', print + " : " + $('#m').val() + " - " + datetime);
+
+
+        $('#m').val('');
+
+        return false;
+    });
+    socket.on('chat message', function(msg){
+
+        $('#messages').append($('<li>').text(msg));
+
+    });
+    function windowclose() {
+        $('#m').val('Left the Chat Room');
+        window.close();
+    }
+
+</script>
+</body>
+</html>

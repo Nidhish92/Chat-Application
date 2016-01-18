@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+    <title>Log In</title>
+<style>
+    body { font: 15px Helvetica, Arial;position: fixed;bottom: 50%;right: 40%}
+</style>
+</head>
+<body>
+Enter Your Name: <input type="text"  id="myText"><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&emsp;
+<button id="Exit" onclick="myFunction2()">Join Chat Room</button>
+
+
+<ul id="messages"></ul>
+<script src="/socket.io/socket.io.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+
+
+
+    function myFunction() {
+        //var Name = document.getElementById('name').value;
+       // var x = document.getElementById("myText").value;
+        var url = "http://localhost:3000"
+        window.open(url);
+    }
+    function myFunction2() {
+        //var Name = document.getElementById('name').value;
+
+       var PName = document.getElementById("myText").value;
+        sessionStorage.setItem('Names', PName);
+
+        myFunction();
+    }
+
+    $("#myText").keyup(function(event){
+        if(event.keyCode == 13){
+            $("#Exit").click();
+        }
+    });
+
+
+
+</script>
+</body>
+</html>
